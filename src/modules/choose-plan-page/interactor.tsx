@@ -7,8 +7,8 @@ import {
   PaymentPlanId,
   useGetSubscriptionProducts,
 } from "../../use-cases/get-subscription-products";
-import check from "./assets/check.svg";
-import cross from "./assets/cross.svg";
+import { check } from "./assets/index";
+import { cross } from "./assets/index";
 import { InternalFileType, PAGE_LINKS } from "./types/choose-pan.enums";
 import { IPaymentPageInteractor, Plan } from "./types/choose-plan.interfaces";
 import { Bullets } from "./types/choose-plan.types";
@@ -214,14 +214,15 @@ export const usePaymentPageInteractor = (): IPaymentPageInteractor => {
   const generateBullets = (
     t: (key: string) => string,
     prefix: string,
-    positive: boolean
+    index: number
   ): Bullets[] => {
     const bullets: Bullets[] = [];
     for (let i = 1; i <= 8; i++) {
+      const imgSrc = index === 0 ? (i <= 3 ? check : cross) : check;
       bullets.push({
-        imgSrc: positive ? check : cross,
+        imgSrc: imgSrc,
         bullText: (
-          <span className={`${positive ? "" : "text-[#878787]"}`}>
+          <span className={`${imgSrc === check ? "" : "text-[#878787]"}`}>
             {t(`payment_page.plans.${prefix}.bullet${i}`)}
           </span>
         ),
@@ -255,7 +256,7 @@ export const usePaymentPageInteractor = (): IPaymentPageInteractor => {
         fullPrice: getFormattedPrice(price?.price, price.currency, "trial"),
         formattedCurrency: getCurrency(price?.currency),
         date: index === 2 ? t("payment_page.plans.annual.date") : null,
-        bullets: generateBullets(t, handlePeriod(index), true),
+        bullets: generateBullets(t, handlePeriod(index), index),
         text: t(`payment_page.plans.${handlePeriod(index)}.text`, {
           formattedPrice: getFormattedPrice(
             products[0]?.price?.price,
