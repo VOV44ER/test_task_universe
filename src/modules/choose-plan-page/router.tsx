@@ -7,13 +7,15 @@ import green_check_b from "./assets/green-check-b.svg";
 import radio_off from "./assets/radio-off.svg";
 import radio_on from "./assets/radio-on.svg";
 import stars_doc_b from "./assets/stars_document-b.svg";
-import { IPaymentPageInteractor, InternalFileType } from "./interactor";
+import { InternalFileType } from "./types/choose-pan.enums";
+import { IPaymentPageRouter } from "./types/choose-plan.interfaces";
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
+// винести в components
 const BannerYourDocIsReady: React.FC<{}> = () => {
   const { t } = useTranslation();
   return (
@@ -34,16 +36,14 @@ const BannerYourDocIsReady: React.FC<{}> = () => {
   );
 };
 
-export interface IProps {
-  interactor: IPaymentPageInteractor;
-  header: React.ReactNode;
-}
-export const PaymentPageRouter: React.FC<IProps> = ({ interactor, header }) => {
+export const PaymentPageRouter: React.FC<IPaymentPageRouter> = ({
+  interactor,
+  header,
+}) => {
   const {
     onContinue,
     selectedPlan,
     onSelectPlan,
-    onCommentsFlip,
     imagePDF,
     isImageLoading,
     fileLink,
@@ -52,6 +52,8 @@ export const PaymentPageRouter: React.FC<IProps> = ({ interactor, header }) => {
   } = interactor;
 
   const isPDFFile = interactor.fileType === "PDF";
+
+  // TODO: includes
   const isImage =
     interactor.fileType === InternalFileType.JPEG ||
     interactor.fileType === InternalFileType.JPG ||
@@ -60,6 +62,7 @@ export const PaymentPageRouter: React.FC<IProps> = ({ interactor, header }) => {
   const plans = interactor.getPlans(t);
   // const plan = plans.find((item) => item.id === interactor.selectedPlan)
 
+  // TODO: rewrite
   React.useEffect(() => {
     if (document.getElementsByClassName("swiper-wrapper")[0]) {
       // @ts-ignore
@@ -73,7 +76,7 @@ export const PaymentPageRouter: React.FC<IProps> = ({ interactor, header }) => {
 
   const renderImage = React.useCallback(() => {
     if (isPDFFile) {
-      if (imagePDF !== null) {
+      if (!!imagePDF) {
         return (
           <Image
             src={URL.createObjectURL(imagePDF)}
@@ -84,7 +87,7 @@ export const PaymentPageRouter: React.FC<IProps> = ({ interactor, header }) => {
         );
       }
 
-      if (imagePDF === null && !isImageLoading) {
+      if (!imagePDF && !isImageLoading) {
         return <Image src={fake_file} alt="fake_file" />;
       }
 

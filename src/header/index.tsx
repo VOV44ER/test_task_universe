@@ -1,5 +1,5 @@
 import check from "../header/assets/check.svg";
-import { PAGE_LINKS } from "../modules/choose-plan-page/interactor";
+import { PAGE_LINKS } from "../modules/choose-plan-page/types/choose-pan.enums";
 import logo_new from "./assets/logo.svg";
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";

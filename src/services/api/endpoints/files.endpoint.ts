@@ -1,4 +1,4 @@
-import { InternalFileType } from "../../../modules/choose-plan-page/interactor";
+import { InternalFileType } from "../../../modules/choose-plan-page/types/choose-pan.enums";
 import { ApiFile } from "../types";
 
 async function mockGetFiles(): Promise<GetFilesResponse> {
@@ -16,7 +16,7 @@ async function mockGetFiles(): Promise<GetFilesResponse> {
   // Simulate an async delay (optional)
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  return {files: mockResponse};
+  return { files: mockResponse };
 }
 export class FilesEndpoint {
   async getFiles() {
@@ -25,11 +25,19 @@ export class FilesEndpoint {
   }
 
   async downloadFile(fileId: ApiFile["id"]) {
-    return { format: InternalFileType.PDF, filename: "dummy.pdf", url: "/files/test.pdf" };
+    return {
+      format: InternalFileType.PDF,
+      filename: "dummy.pdf",
+      url: "/files/test.pdf",
+    };
   }
 
   async editedFile(fileId: ApiFile["id"]) {
-    return { format: InternalFileType.PDF, filename: "dummy.pdf", url: "/files/test.pdf" };
+    return {
+      format: InternalFileType.PDF,
+      filename: "dummy.pdf",
+      url: "/files/test.pdf",
+    };
   }
 }
 

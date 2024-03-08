@@ -3,10 +3,8 @@ import { usePaymentPageInteractor } from "./interactor";
 import { PaymentPageRouter } from "./router";
 import React from "react";
 
-export interface IProps {}
-export const PaymentPage: React.FC<IProps> = () => {
+export const PaymentPage: React.FC<{}> = () => {
   const interactor = usePaymentPageInteractor();
-  // const router = useRouter()
 
   return (
     <PaymentPageRouter
