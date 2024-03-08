@@ -269,7 +269,7 @@ export const usePaymentPageInteractor = (): IPaymentPageInteractor => {
   React.useEffect(() => {
     loadPdfCover();
     loadImageCover();
-  }, [loadImageCover, loadPdfCover]);
+  }, [file, router.query?.file]);
 
   const getPlans = (t: (key: string) => string): Plan[] => {
     const getTrialFormattedPrice = (price: number, currency: string) => {
